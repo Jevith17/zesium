@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Inter } from "next/font/google";
 
+import { TooltipProvider } from "@/components/ui/tooltip";
+
 import { Providers } from "@/components/providers";
 
 import "./globals.css";
-import { Authenticated } from "convex/react";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,9 +33,11 @@ export default function RootLayout({
         <body
           className={`${inter.variable} ${plexMono.variable} antialiased`}
         >
-          <Providers>
-            {children}
-          </Providers>
+          <TooltipProvider>
+            <Providers>
+              {children}
+            </Providers>
+          </TooltipProvider>
         </body>
       </html>
   );
