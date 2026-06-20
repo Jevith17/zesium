@@ -1,6 +1,7 @@
 import { ProjectIdLayout } from "@/features/projects/components/project-id-layout";
 
 import { Id } from "../../../../convex/_generated/dataModel";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const Layout = async ({
   children,
@@ -12,11 +13,13 @@ const Layout = async ({
   const { projectId } = await params;
 
   return (
-    <ProjectIdLayout
-      projectId={projectId}
-    >
-      {children}
-    </ProjectIdLayout>
+    <TooltipProvider>
+      <ProjectIdLayout
+        projectId={projectId}
+      >
+        {children}
+      </ProjectIdLayout>
+    </TooltipProvider>
   );
 }
  
