@@ -6,11 +6,8 @@ import { firecrawl } from "@/lib/firecrawl";
 const URL_REGEX = /https?:\/\/[^\s]+/g;
 
 export const demoGenerate = inngest.createFunction(
-  { 
-    id: "demo-generate",
-    triggers: [{event: "demo/generate" }],
-  },
-  async ({ event, step }) => {
+  { id: "demo-generate" },
+  async ({ event, step }: { event: { data: { prompt: string } }; step: { run: <T>(name: string, fn: () => Promise<T> | T) => Promise<T> } }) => {
     const { prompt } = event.data as { prompt: string; };
 
     const urls = await step.run("exctract-urls", async () => {
@@ -46,4 +43,13 @@ export const demoGenerate = inngest.createFunction(
       });
     })
   },
+);
+
+export const demoError = inngest.createFunction(
+  { id: "demo-error" },
+  async ({ step }: { step: { run: <T>(name: string, fn: () => Promise<T> | T) => Promise<T> } }) => {
+    await step.run("fail", async () => {
+      throw new Error("Inngest error: Background job failed!");
+    });
+  }
 );
