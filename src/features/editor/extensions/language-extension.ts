@@ -5,6 +5,7 @@ import { css } from "@codemirror/lang-css";
 import { json } from "@codemirror/lang-json";
 import { markdown } from "@codemirror/lang-markdown";
 import { python } from "@codemirror/lang-python";
+import { java } from "@codemirror/lang-java";
 
 export const getLanguageExtension = (filename: string): Extension => {
   const ext = filename.split(".").pop()?.toLowerCase();
@@ -29,6 +30,8 @@ export const getLanguageExtension = (filename: string): Extension => {
       return markdown();
     case "py":
       return python();
+    case "java":
+      return java();
     default:
       return [];
   }
