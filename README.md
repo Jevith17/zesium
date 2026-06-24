@@ -181,3 +181,7 @@ zesium/
 ## License
 
 Distributed under the AGPL-3.0 License. See LICENSE for more information.
+
+## Security
+
+Refer to [SECURITY.md] (./SECURITY.md)
