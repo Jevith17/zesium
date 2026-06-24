@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import { useEffect, useRef } from "react";
 import { Terminal } from "@xterm/xterm";
 import { FitAddon } from "@xterm/addon-fit";
 
-// @ts-expect-error: xterm CSS is handled by the bundler at runtime.
+
+// Ignore TS complaint about missing type declarations for the side-effect CSS import
+// @ts-ignore
 import "@xterm/xterm/css/xterm.css";
 
 interface PreviewTerminalProps {
