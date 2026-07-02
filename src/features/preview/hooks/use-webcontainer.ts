@@ -149,12 +149,32 @@ export const useWebContainer = ({
 
     const filesMap = new Map(files.map((f) => [f._id, f]));
 
-    for (const file of files) {
-      if (file.type !== "file" || file.storageId || !file.content) continue;
+    const syncFiles = async () => {
+      for (const file of files) {
+        if (file.type !== "file" || file.storageId || !file.content) continue;
 
-      const filePath = getFilePath(file, filesMap);
-      container.fs.writeFile(filePath, file.content);
-    }
+        const filePath = getFilePath(file, filesMap);
+        try {
+          // Ensure parent directory exists
+          const parts = filePath.split("/");
+          let currentPath = "";
+          for (let i = 0; i < parts.length - 1; i++) {
+            currentPath = currentPath ? `${currentPath}/${parts[i]}` : parts[i];
+            try {
+              await container.fs.mkdir(currentPath, { recursive: true });
+            } catch (e) {
+              // Directory might already exist, ignore
+            }
+          }
+          // Write file
+          await container.fs.writeFile(filePath, file.content);
+        } catch (e) {
+          console.error(`Failed to sync file ${filePath}:`, e);
+        }
+      }
+    };
+
+    syncFiles();
   }, [files, status]);
 
   // Reset when disabled

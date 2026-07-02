@@ -1,9 +1,8 @@
-import { generateText, Output } from "ai";
+import { generateObject } from "ai";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { google } from "@ai-sdk/google";
-// import { google } from "@ai-sdk/google";
 
 const suggestionSchema = z.object({
   suggestion: z
@@ -82,13 +81,13 @@ export async function POST(request: Request) {
       .replace("{nextLines}", nextLines || "")
       .replace("{lineNumber}", lineNumber.toString());
 
-    const { output } = await generateText({
+    const { object } = await generateObject({
       model: google("models/gemini-2.5-flash"),
-      output: Output.object({ schema: suggestionSchema }),
+      schema: suggestionSchema,
       prompt,
     });
 
-    return NextResponse.json({ suggestion: output.suggestion })
+    return NextResponse.json({ suggestion: object.suggestion })
   } catch (error) {
     console.error("Suggestion error: ", error);
     return NextResponse.json(
